@@ -17,46 +17,50 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class LoginBean {
-    private Usuario usuario;
-    private Usuario passwd;
+    private String usuario;
+    private String passwd;
     private UsuarioDAOImp UsuarioDAO;
 
-    public LoginBean(Usuario usuario, Usuario passwd, UsuarioDAOImp UsuarioDAO) {
+    public LoginBean(String usuario, String passwd, UsuarioDAOImp UsuarioDAO) {
         this.usuario = usuario;
         this.passwd = passwd;
         this.UsuarioDAO = UsuarioDAO;
     }
-    
-    
-    public LoginBean(String nombreUs, String passwdUs){
+
+
+    public LoginBean(){
        UsuarioDAO = new UsuarioDAOImp();
+    }
+
+    public Usuario validarUsuario(String usuario,String passwd){
+        return getUsuarioDAO().validarUsuario(usuario, passwd);
     }
 
     /**
      * @return the usuario
      */
-    public Usuario getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
     /**
      * @param usuario the usuario to set
      */
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
     /**
      * @return the passwd
      */
-    public Usuario getPasswd() {
+    public String getPasswd() {
         return passwd;
     }
 
     /**
      * @param passwd the passwd to set
      */
-    public void setPasswd(Usuario passwd) {
+    public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
 
@@ -74,8 +78,5 @@ public class LoginBean {
         this.UsuarioDAO = UsuarioDAO;
     }
 
-    public Usuario validarUsuario(String nombreUs, String passwUs) {
-        return UsuarioDAO.validarUsuario(nombreUs, passwUs);
-    }
-    
+   
 }
