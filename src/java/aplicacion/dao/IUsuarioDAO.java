@@ -5,7 +5,8 @@
  */
 package aplicacion.dao;
 
-import aplicacion.hibernate.mapeos.Usuario;
+import aplicacion.modelo.dominio.Usuario;
+import java.util.List;
 
 
 /**
@@ -13,7 +14,10 @@ import aplicacion.hibernate.mapeos.Usuario;
  * @author Alumno
  */
 public interface IUsuarioDAO {
+    void agregarUsuario(Usuario unUsuario);
+    void eliminarUsuario(Usuario unUsuario);
     Usuario validarUsuario(String nombreUsuario, String password);
     Usuario obtenerUsuario(String nombreUsuario);
+    List <Usuario> obtenerUsuariosActivos();
     void modificar(Usuario unUsuario);
 }

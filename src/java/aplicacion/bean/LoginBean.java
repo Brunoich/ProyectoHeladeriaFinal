@@ -6,7 +6,8 @@
 package aplicacion.bean;
 
 import aplicacion.dao.mysql.UsuarioDAOImp;
-import aplicacion.hibernate.mapeos.Usuario;
+import aplicacion.modelo.dominio.Usuario;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -16,52 +17,40 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class LoginBean {
-    private String usuario;
-    private String passwd;
+public class LoginBean implements Serializable{
+    private String nombreUs;
+    private String passwUs;
     private UsuarioDAOImp UsuarioDAO;
 
-    public LoginBean(String usuario, String passwd, UsuarioDAOImp UsuarioDAO) {
-        this.usuario = usuario;
-        this.passwd = passwd;
-        this.UsuarioDAO = UsuarioDAO;
-    }
-
-
-    public LoginBean(){
+   public LoginBean(){
        UsuarioDAO = new UsuarioDAOImp();
     }
-
-    public Usuario validarUsuario(String usuario,String passwd){
-        return getUsuarioDAO().validarUsuario(usuario, passwd);
+    /**
+     * @return the nombreUs
+     */
+    public String getNombreUs() {
+        return nombreUs;
     }
 
     /**
-     * @return the usuario
+     * @param nombreUs the nombreUs to set
      */
-    public String getUsuario() {
-        return usuario;
+    public void setNombreUs(String nombreUs) {
+        this.nombreUs = nombreUs;
     }
 
     /**
-     * @param usuario the usuario to set
+     * @return the passwUs
      */
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public String getPasswUs() {
+        return passwUs;
     }
 
     /**
-     * @return the passwd
+     * @param passwUs the passwUs to set
      */
-    public String getPasswd() {
-        return passwd;
-    }
-
-    /**
-     * @param passwd the passwd to set
-     */
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public void setPasswUs(String passwUs) {
+        this.passwUs = passwUs;
     }
 
     /**
@@ -78,5 +67,8 @@ public class LoginBean {
         this.UsuarioDAO = UsuarioDAO;
     }
 
-   
+    public Usuario validarUsuario(String nombreUs, String passwUs) {
+        return getUsuarioDAO().validarUsuario(nombreUs, passwUs);
+    }
+ 
 }

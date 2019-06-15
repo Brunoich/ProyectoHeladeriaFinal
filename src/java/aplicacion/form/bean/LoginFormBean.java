@@ -6,7 +6,8 @@
 package aplicacion.form.bean;
 
 import aplicacion.bean.LoginBean;
-import aplicacion.hibernate.mapeos.Usuario;
+import aplicacion.modelo.dominio.Usuario;
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -19,7 +20,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @RequestScoped
-public class LoginFormBean {
+public class LoginFormBean implements Serializable{
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
     private String nombreUs;

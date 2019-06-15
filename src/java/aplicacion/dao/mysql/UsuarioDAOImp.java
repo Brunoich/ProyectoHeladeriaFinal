@@ -7,7 +7,9 @@ package aplicacion.dao.mysql;
 
 import aplicacion.dao.IUsuarioDAO;
 import aplicacion.hibernate.configuracion.NewHibernateUtil;
-import aplicacion.hibernate.mapeos.Usuario;
+import aplicacion.modelo.dominio.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -18,7 +20,7 @@ import org.hibernate.criterion.Restrictions;
  * @author Alumno
  */
 public class UsuarioDAOImp implements IUsuarioDAO{
-
+    
     @Override
     public Usuario validarUsuario(String nombreUsuario, String password) {
         Usuario u = null;
@@ -34,7 +36,7 @@ public class UsuarioDAOImp implements IUsuarioDAO{
         session.close();
         return u;
     }   
-
+    
     @Override
     public Usuario obtenerUsuario(String nombreUsuario) {
         Usuario u = null;
@@ -51,7 +53,35 @@ public class UsuarioDAOImp implements IUsuarioDAO{
 
     @Override
     public void modificar(Usuario unUsuario) {
+        
+    }
+
+    @Override
+    public void agregarUsuario(Usuario unUsuario) {
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(unUsuario);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    @Override
+    public void eliminarUsuario(Usuario unUsuario) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Usuario> obtenerUsuariosActivos() {
+        List<Usuario> listado = new ArrayList();
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Usuario.class);
+        criteria.add(Restrictions.like("estado", true));
+        listado = criteria.list();
+        session.getTransaction().commit();
+        session.close();
+        return listado;
     }
     
 }
+  
