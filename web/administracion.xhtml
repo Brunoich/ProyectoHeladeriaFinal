@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:growl id="mes"/>
+        <h:form id="frmAdmin">
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Nombre de Usuario: " />
+                <p:outputLabel value="#{loginFormBean.obtenerUsuario()}"/>
+                <p:commandButton id="btnAgregarUsuario" value="Agregar Usuario" oncomplete="PF('agregarUsuario').show()" update="dlgCrearUsuario"/>
+                <p:commandButton id="btnAgregarProducto" value="Agregar Producto" oncomplete="PF('agregarUsuario').show()"/>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="frmUsuarios">
+            <p:dataTable id="dlUsuarios" value="#{usuarioFormBean.obtenerListaUsuariosActivos()}" var="p">
+                <p:column headerText="Codigo">
+                    <p:outputLabel value="#{p.codigo}"/>
+                </p:column>
+                <p:column headerText="Nombre de Usuario">
+                    <p:outputLabel value="#{p.nombreUsuario}"/>
+                </p:column>
+                <p:column headerText="Password">
+                    <p:outputLabel value="#{p.password}"/>
+                </p:column>
+                <p:column headerText="Nombre">
+                    <p:outputLabel value="#{p.nombres}"/>
+                </p:column>
+                <p:column headerText="Apellido">
+                    <p:outputLabel value="#{p.apellidos}"/>
+                </p:column>
+                <p:column headerText="Tipo Usuario">
+                    <p:outputLabel value="#{p.tipoUsuario}"/>
+                </p:column>
+                <p:column headerText="Acciones">
+                    <p:commandButton id="btnEliminar" value="Eliminar" oncomplete="PF('eliminarUsuario').show()" actionListener="#{usuarioFormBean.establecerUsuario(p)}" update="dlgEliminarUsuario"/>
+                    <p:commandButton id="btnModificar" value="Modificar" oncomplete="PF('modificarUsuario').show()" actionListener="#{usuarioFormBean.establecerUsuario(p)}" update="dlgModificarUsuario"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgCrearUsuario" header="Alta de Usuario" widgetVar="agregarUsuario" 
+                  resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+            <h:form id="frmAltaUsuario">
+                <p:panelGrid id="tblAltaUsuario" columns="2">
+                    <p:outputLabel for="nombreUsuario" value="Agregar Nombre de Usuario"/>
+                    <p:inputText id="nombreUsuario" value="#{usuarioFormBean.usuario.nombreUsuario}" placeholder="Nombre de Usuario" size="20" required="true"/>
+                    <p:outputLabel for="password" value="Agregar Contraseña"/>
+                    <p:inputText id="password" value="#{usuarioFormBean.usuario.password}" placeholder="Contraseña de Usuario" size="20" required="true"/>
+                    <p:outputLabel for="tipoUsuario" value="Agregar Tipo de Usuario"/>
+                    <p:inputText id="tipoUsuario" value="#{usuarioFormBean.usuario.tipoUsuario}" placeholder="Cliente o Andministrador" size="20" required="true"/>
+                    <p:outputLabel for="DNI" value="Agregar DNI"/>
+                    <p:inputNumber id="DNI" value="#{usuarioFormBean.DNI}" decimalPlaces="0" placeholder="DNI del cliente" size="20" required="true" maxlength="8"/>
+                    <p:outputLabel for="nombres" value="Agregar Nombres "/>
+                    <p:inputText id="nombres" value="#{usuarioFormBean.usuario.nombres}" placeholder="Nombres del cliente" size="20"/> 
+                    <p:outputLabel for="apellidos" value="Agregar apellidos"/>
+                    <p:inputText id="apellidos" value="#{usuarioFormBean.usuario.apellidos}" placeholder="Apellidos del cliente" size="20"/>
+                    <p:commandButton id="btnAgregarUsuario" value="Agregar" actionListener="#{usuarioFormBean.agregarUsuarioAdministrador()}" 
+                                     update=":frmUsuarios" oncomplete="PF('agregarUsuario').hide()">
+                        <p:confirm header="Pedido de Confirmacion" message="¿Confirma Agregar Usuario?" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton id="btnCerrarAltaUsuario" value="Salir" oncomplete="PF('agregarUsuario').hide()" />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dlgEliminarUsuario" header="Eliminar Usuario" widgetVar="eliminarUsuario" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+            <p:growl id="msgEliminar" showDetail="false" showSummary="true" sticky="false"/>
+            <h:form id="frmEliminarUsuario">
+                <p:panelGrid id="tblEliminarUsuario" columns="2">
+                    <p:outputLabel  for="nombreUsuario" value="Nombre del Usuario"/>
+                    <p:outputLabel id="nombreUsuario" value="#{usuarioFormBean.unUsuario.nombreUsuario}"/>
+                    <p:outputLabel  for="password" value="Password del Usuario"/>
+                    <p:outputLabel id="password" value="#{usuarioFormBean.unUsuario.password}"/>
+                    <p:commandButton id="btnEliminarUsuario" value="Eliminar" actionListener="#{usuarioFormBean.eliminarUsuario()}" update=":frmUsuarios" oncomplete="PF('eliminarUsuario').hide()">
+                        <p:confirm header="Pedido de Confirmacion" message="¿Seguro desea eliminar al Usuario?" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton id="btnCerrarEliminarUsuario" value="Salir" oncomplete="PF('eliminarUsuario').hide()" />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dlgModificarUsuario" header="Modificar Usuario" widgetVar="modificarUsuario" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+            <p:growl id="msgModificar" showDetail="false" showSummary="true" sticky="false"/>
+            <h:form id="frmModificarUsuario">
+                <p:panelGrid id="tblModificarUsuario" columns="2">
+                    <p:outputLabel for="nombreUsuario" value="Nombre de Usuario: "/>
+                    <p:inputText id="nombreUsuario" value="#{usuarioFormBean.unUsuario.nombreUsuario}" size="20" required="true"/>
+                    <p:outputLabel for="password" value="Contraseña: "/>
+                    <p:inputText id="password" value="#{usuarioFormBean.unUsuario.password}" size="20" required="true"/>
+                    <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: "/>
+                    <p:inputText id="tipoUsuario" value="#{usuarioFormBean.unUsuario.tipoUsuario}" size="20" required="true"/>
+                    <p:outputLabel for="nombres" value="Nombres: "/>
+                    <p:inputText id="nombres" value="#{usuarioFormBean.unUsuario.nombres}" size="20"/> 
+                    <p:outputLabel for="apellidos" value="Apellidos: "/>
+                    <p:inputText id="apellidos" value="#{usuarioFormBean.unUsuario.apellidos}" size="20"/>
+                    <p:commandButton id="btnModificarUsuario" value="Modificar" actionListener="#{usuarioFormBean.modificarUsuario()}" update=":frmUsuarios" oncomplete="PF('modificarUsuario').hide()">
+                        <p:confirm header="Pedido de Confirmacion" message="¿Seguro desea modificar al Usuario?" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton id="btnCerrarModificarUsuario" value="Salir" oncomplete="PF('modificarUsuario').hide()" />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        
+        <h:form id="frmProducto">
+            <p:dataTable id="dlProducto" value="#{productoFormBean.obtenerListadoProducto()}" var="p">
+                <p:column headerText="Codigo Producto">
+                    <p:outputLabel value="#{p.codProducto}"/>
+                </p:column>
+                <p:column headerText="Nombre del Producto">
+                    <p:outputLabel value="#{p.descripcion}"/>
+                </p:column>
+                <p:column headerText="Categoria">
+                    <p:outputLabel value="#{p.categorias}"/>
+                </p:column>
+                <p:column headerText="Precio">
+                    <p:outputLabel value="#{p.precio}"/>
+                </p:column>
+                <p:column headerText="Stock">
+                    <p:outputLabel value="#{p.stock}"/>
+                </p:column>
+                <p:column headerText="Foto">
+                    <p:outputLabel value="#{p.foto}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgCrearProducto" header="Alta de Producto" widgetVar="agregarProducto" 
+                  resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+            <p:growl id="msgAltaProducto" showDetail="false" showSummary="true" sticky="false"/>
+            <h:form id="frmAltaProducto" enctype="multipart/form-data">
+                <p:panelGrid id="tblAltaProducto" columns="2">
+                    <p:outputLabel for="nombreProducto" value="Agregar Nombre"/>
+                    <p:inputText id="nombreProducto" value="#{productoFormBean.producto.descripcion}" placeholder="Nombre Producto" size="20" required="true"/>
+                    <p:outputLabel id="categoria" value="Agregar Categoria"/>
+                    <p:selectOneMenu id="somCategoria" value="#{productoFormBean.producto.categorias}" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Seleccione Categoria" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{productoFormBean.obtenerListaCategoria()}" var="c" itemLabel="#{c.descripcion}" itemValue="#{c}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="precio" value="Agregar Precio"/>
+                    <p:inputNumber id="precio" value="#{productoFormBean.producto.precio}" placeholder="Precio Producto" decimalPlaces="2" size="20" required="true"/>
+                    <p:outputLabel for="stock" value="Agregar Stock"/>
+                    <p:inputNumber id="stock" value="#{productoFormBean.producto.stock}" decimalPlaces="0" placeholder="Productos en Stock" size="20" required="true" />
+                    <p:commandButton id="btnAgregarProducto" value="Agregar" actionListener="#{productoFormBean.agregarProducto()}" 
+                                     update=":frmProducto" oncomplete="PF('agregarProducto').hide()">
+                        <p:confirm header="Pedido de Confirmacion" message="¿Confirma Agregar Producto?" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton id="btnCerrarAltaProducto" value="Salir" oncomplete="PF('agregarProducto').hide()" />
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:confirmDialog id="confirmacionDialog" global="true" showEffect="fade" hideEffect="fade">
+            <h:form id="frmConfirmacionOperacion">
+                <p:commandButton value="si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="no" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" style="float: right;" />
+            </h:form>
+        </p:confirmDialog>    
+    </h:body>
+</html>
+

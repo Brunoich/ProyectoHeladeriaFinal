@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 13/06/2019 15:25:47 by Hibernate Tools 4.3.1 -->
+<!-- Generated 07/07/2019 10:04:56 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-  <class catalog="proyecto" name="aplicacion.hibernate.mapeos.Usuario" optimistic-lock="version" table="usuarios">
+  <class catalog="heladeria" name="aplicacion.modelo.dominio.Usuario" optimistic-lock="version" table="usuarios">
     <id name="codigo" type="int">
       <column name="codigo"/>
       <generator class="assigned"/>
     </id>
-    <many-to-one class="aplicacion.hibernate.mapeos.Cliente" fetch="select" name="clientes">
+    <many-to-one class="aplicacion.modelo.dominio.Cliente" fetch="join" cascade="all" name="clientes">
       <column name="clientes_dni" not-null="true"/>
     </many-to-one>
     <property name="nombreUsuario" type="string">
@@ -32,7 +32,7 @@
       <key>
         <column name="usuarios_codigo" not-null="true"/>
       </key>
-      <one-to-many class="aplicacion.hibernate.mapeos.Factura"/>
+      <one-to-many class="aplicacion.modelo.dominio.Factura"/>
     </set>
   </class>
 </hibernate-mapping>

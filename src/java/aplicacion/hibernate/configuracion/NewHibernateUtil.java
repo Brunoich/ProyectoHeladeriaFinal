@@ -12,7 +12,7 @@ import org.hibernate.SessionFactory;
  * Hibernate Utility class with a convenient method to get Session Factory
  * object.
  *
- * @author Alumno
+ * @author Malkanchu impaktruen
  */
 public class NewHibernateUtil {
 
@@ -22,7 +22,7 @@ public class NewHibernateUtil {
         try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) 
             // config file.
-            sessionFactory = new AnnotationConfiguration().configure("/splicacion/hibernate/configuracion/hibernate.cfg.xml").buildSessionFactory();
+            sessionFactory = new AnnotationConfiguration().configure("/aplicacion/hibernate/configuracion/hibernate.cfg.xml").buildSessionFactory();
         } catch (Throwable ex) {
             // Log the exception. 
             System.err.println("Initial SessionFactory creation failed." + ex);

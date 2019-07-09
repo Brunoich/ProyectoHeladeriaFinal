@@ -1,5 +1,8 @@
 package aplicacion.modelo.dominio;
-// Generated 13/06/2019 15:25:39 by Hibernate Tools 4.3.1
+// Generated 07/07/2019 10:04:55 by Hibernate Tools 4.3.1
+
+import aplicacion.modelo.dominio.Producto;
+
 
 
 

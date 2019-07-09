@@ -11,7 +11,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -19,14 +19,22 @@ import javax.faces.context.FacesContext;
  * @author Alumno
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class LoginFormBean implements Serializable{
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
+    private Usuario usuarioEncontrado;
     private String nombreUs;
     private String passwUs;
     
     public LoginFormBean() {
+        
+    }
+
+    public LoginFormBean(LoginBean loginBean, String nombreUs, String passwUs) {
+        this.loginBean = loginBean;
+        this.nombreUs = nombreUs;
+        this.passwUs = passwUs;
     }
 
     public String validarUsuario(){
@@ -39,10 +47,21 @@ public class LoginFormBean implements Serializable{
             FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario Valido", "Usuario Valido");
             FacesContext.getCurrentInstance().addMessage(null, facesMessage);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuarioValidado", usuario);
-            resultado = "busquedaLibros?faces-redirect=true";
+            if (usuario.getTipoUsuario().equals("cliente")){
+            resultado = "clientes?faces-redirect=true";
+            }
+            else{
+                resultado="administracion?faces-redirect=true";
+            }
         }
         return resultado;
     }
+    
+    public String obtenerUsuario(){
+        setUsuarioEncontrado((Usuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuarioValidado"));/*trae al usuario que inicio sesion*/
+        return getUsuarioEncontrado().getNombreUsuario();
+    }
+    
     public LoginBean getLoginBean() {
         return loginBean;
     }
@@ -80,6 +99,14 @@ public class LoginFormBean implements Serializable{
      */
     public void setPasswUs(String passwUs) {
         this.passwUs = passwUs;
+    }
+
+    public Usuario getUsuarioEncontrado() {
+        return usuarioEncontrado;
+    }
+
+    public void setUsuarioEncontrado(Usuario usuarioEncontrado) {
+        this.usuarioEncontrado = usuarioEncontrado;
     }
     
 }

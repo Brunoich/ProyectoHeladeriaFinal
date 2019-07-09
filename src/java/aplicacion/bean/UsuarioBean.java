@@ -8,45 +8,53 @@ package aplicacion.bean;
 import aplicacion.dao.IUsuarioDAO;
 import aplicacion.dao.mysql.UsuarioDAOImp;
 import aplicacion.modelo.dominio.Usuario;
+import java.io.Serializable;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author Alumno
  */
 @ManagedBean
-@RequestScoped
-public class UsuarioBean {
-    private Usuario usuario;
+@SessionScoped
+public class UsuarioBean implements Serializable {
     private IUsuarioDAO usuarioDao;
+    
     /**
      * Creates a new instance of UsuarioBean
      */
     public UsuarioBean() {
-        usuario = new Usuario();
         usuarioDao = new UsuarioDAOImp();
     }
-
+    
     public UsuarioBean(Usuario usuario, IUsuarioDAO usuarioDao) {
-        this.usuario = usuario;
         this.usuarioDao = usuarioDao;
     }
-
+    
+    public void agregarUsuario(Usuario user){
+      usuarioDao.agregarUsuario(user);
+    }
+    
+    public void eliminarUsuario(Usuario user){
+      usuarioDao.eliminarUsuario(user);
+    }
+    
+    public void modificarUsuario(Usuario user){
+      usuarioDao.modificar(user);
+    }
+    
+    public List<Usuario> obtenerListado(){
+       return usuarioDao.obtenerListaUsuariosActivos();
+    }
+    
     public IUsuarioDAO getUsuarioDao() {
         return usuarioDao;
     }
 
     public void setUsuarioDao(IUsuarioDAO usuarioDao) {
         this.usuarioDao = usuarioDao;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
     
 }

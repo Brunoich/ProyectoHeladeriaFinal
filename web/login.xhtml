@@ -7,6 +7,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        <p:growl id="msg"/>
         <p:panel header="Acceso al Sistema" footer="APU - PV 2019">
             <h:form id="login">
                 <p:growl id="mensaje" showDetail="false" sticky="false"/>
@@ -15,10 +16,11 @@
                     <p:inputText id="nombreUsuario" required="true" value="#{loginFormBean.nombreUs}"/>
                     <p:outputLabel for="passwUsuario" value="Contraseña: "/>
                     <p:password id="passwUsuario" required="true" value="#{loginFormBean.passwUs}"/>
-                    <p:commandButton id="botonValidar" value="Validar Usuario" update="login" action="#{loginFormBean.validarUsuario()}"/>
+                    <p:commandButton id="botonValidar" value="Validar Usuario" update=":msg" action="#{loginFormBean.validarUsuario()}"/>
+                    <p:commandLink value="Registrarse" process="@this" action="nuevoUsuario"/>
                 </h:panelGrid>
             </h:form>
-        </p:panel> 
+        </p:panel>
     </h:body>
 </html>
 

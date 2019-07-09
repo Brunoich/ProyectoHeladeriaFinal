@@ -9,22 +9,33 @@ import aplicacion.dao.mysql.UsuarioDAOImp;
 import aplicacion.modelo.dominio.Usuario;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author Alumno
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class LoginBean implements Serializable{
     private String nombreUs;
     private String passwUs;
     private UsuarioDAOImp UsuarioDAO;
 
-   public LoginBean(){
+    public LoginBean(){
        UsuarioDAO = new UsuarioDAOImp();
     }
+
+    public LoginBean(String nombreUs, String passwUs, UsuarioDAOImp UsuarioDAO) {
+        this.nombreUs = nombreUs;
+        this.passwUs = passwUs;
+        this.UsuarioDAO = UsuarioDAO;
+    }
+    
+    public Usuario validarUsuario(String nombreUs, String passwUs) {
+        return getUsuarioDAO().validarUsuario(nombreUs, passwUs);
+    }
+ 
     /**
      * @return the nombreUs
      */
@@ -67,8 +78,5 @@ public class LoginBean implements Serializable{
         this.UsuarioDAO = UsuarioDAO;
     }
 
-    public Usuario validarUsuario(String nombreUs, String passwUs) {
-        return getUsuarioDAO().validarUsuario(nombreUs, passwUs);
-    }
- 
+    
 }

@@ -53,7 +53,11 @@ public class UsuarioDAOImp implements IUsuarioDAO{
 
     @Override
     public void modificar(Usuario unUsuario) {
-        
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(unUsuario);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -67,11 +71,15 @@ public class UsuarioDAOImp implements IUsuarioDAO{
 
     @Override
     public void eliminarUsuario(Usuario unUsuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Session session = NewHibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(unUsuario);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
-    public List<Usuario> obtenerUsuariosActivos() {
+    public List<Usuario> obtenerListaUsuariosActivos() {
         List<Usuario> listado = new ArrayList();
         Session session = NewHibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -82,6 +90,5 @@ public class UsuarioDAOImp implements IUsuarioDAO{
         session.close();
         return listado;
     }
-    
 }
   

@@ -18,6 +18,6 @@ public interface IUsuarioDAO {
     void eliminarUsuario(Usuario unUsuario);
     Usuario validarUsuario(String nombreUsuario, String password);
     Usuario obtenerUsuario(String nombreUsuario);
-    List <Usuario> obtenerUsuariosActivos();
+    List <Usuario> obtenerListaUsuariosActivos();
     void modificar(Usuario unUsuario);
 }

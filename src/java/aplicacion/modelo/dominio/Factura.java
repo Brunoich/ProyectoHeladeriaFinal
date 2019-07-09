@@ -1,7 +1,8 @@
 package aplicacion.modelo.dominio;
-// Generated 13/06/2019 15:25:39 by Hibernate Tools 4.3.1
+// Generated 07/07/2019 10:04:55 by Hibernate Tools 4.3.1
 
 
+import aplicacion.modelo.dominio.Usuario;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,12 +23,12 @@ public class Factura  implements java.io.Serializable {
     }
 
 	
-    public Factura(int numFactura, Modopago modopago,Usuario usuarios) {
+    public Factura(int numFactura, Modopago modopago, Usuario usuarios) {
         this.numFactura = numFactura;
         this.modopago = modopago;
         this.usuarios = usuarios;
     }
-    public Factura(int numFactura, Modopago modopago,Usuario usuarios, Date fecha, Set detalles) {
+    public Factura(int numFactura, Modopago modopago, Usuario usuarios, Date fecha, Set detalles) {
        this.numFactura = numFactura;
        this.modopago = modopago;
        this.usuarios = usuarios;
@@ -49,11 +50,11 @@ public class Factura  implements java.io.Serializable {
     public void setModopago(Modopago modopago) {
         this.modopago = modopago;
     }
-    public Usuario getUsuario() {
+    public Usuario getUsuarios() {
         return this.usuarios;
     }
     
-    public void setUsuario(Usuario usuarios) {
+    public void setUsuarios(Usuario usuarios) {
         this.usuarios = usuarios;
     }
     public Date getFecha() {
