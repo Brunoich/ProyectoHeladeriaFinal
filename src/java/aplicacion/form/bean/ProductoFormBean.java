@@ -9,6 +9,8 @@ import aplicacion.bean.CategoriaBean;
 import aplicacion.bean.ProductoBean;
 import aplicacion.modelo.dominio.Categoria;
 import aplicacion.modelo.dominio.Producto;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -32,8 +37,9 @@ public class ProductoFormBean implements Serializable {
     private CategoriaBean categoriaBean;
     private Producto producto;
     private Producto unProducto;
-    private Integer cod = 1;
+    private Integer cod = 12;
     private List<Producto> listadoProducto;
+    private List<Categoria> listadoCategoria;
     private transient UploadedFile archivo = null;
     
     /**
@@ -42,40 +48,54 @@ public class ProductoFormBean implements Serializable {
     public ProductoFormBean() {
         producto = new Producto();
         listadoProducto =  new ArrayList();
+        listadoCategoria = new ArrayList();
     }
 
-    public ProductoFormBean(ProductoBean productoBean, CategoriaBean categoriaBean, Producto producto, Producto unProducto, List<Producto> listadoProducto) {
+    public ProductoFormBean(ProductoBean productoBean, CategoriaBean categoriaBean, Producto producto, Producto unProducto, List<Producto> listadoProducto, List<Categoria> listadoCategoria) {
         this.productoBean = productoBean;
         this.categoriaBean = categoriaBean;
         this.producto = producto;
         this.unProducto = unProducto;
         this.listadoProducto = listadoProducto;
+        this.listadoCategoria = listadoCategoria;
     }
     
     public List<Producto> obtenerListadoProducto(){
-       return productoBean.obtenerListaProducto();
+       return listadoProducto = productoBean.obtenerListaProducto();
     }
     
     public List<Categoria> obtenerListaCategoria(){
-        return categoriaBean.obtenerListaCategoria();
+       return listadoCategoria = categoriaBean.obtenerListaCategoria();
     }
-    
+
     public void agregarProducto(){
-        producto.setEstado(Boolean.TRUE);
+        /*try{
         producto.setCodProducto(cod);
-        setCod(cod + 1);
+        setCod(cod+1);
+        producto.setEstado(Boolean.TRUE);
+        productoBean.agregarProducto(producto);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sea creado el Producto"));
+        }
+        catch(Exception e){ 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear Producto"));
+        }
+        producto = new Producto();*/
+        
         if(getArchivo() != null){
             byte[] contents = getArchivo().getContents();
-            getUnProducto().setFoto(contents);
+            getProducto().setFoto(contents);
         } else {
-            getUnProducto().setFoto(null);
+            getProducto().setFoto(null);
         }
         try{
-            productoBean.agregarProducto(producto);
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto agregado correctamente", "Producto" + getUnProducto().getDescripcion());
-        } catch (Exception e) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error Grave", "No se pudo agregar producto");
-            FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+        producto.setCodProducto(cod);
+        setCod(cod + 1);
+        producto.setEstado(Boolean.TRUE);
+        productoBean.agregarProducto(producto);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Sea creado el Producto"));
+        }
+        catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al crear Producto"));
         }
         setUnProducto(new Producto());
     }
@@ -85,7 +105,8 @@ public class ProductoFormBean implements Serializable {
     }
     
     public void eliminarProducto(){
-        productoBean.eliminarProducto(unProducto);
+        unProducto.setEstado(Boolean.FALSE);
+        productoBean.modificarProducto(unProducto);
         FacesMessage msg = new FacesMessage("Producto Eliminado");
         FacesContext.getCurrentInstance().addMessage(null, msg);
         unProducto = new Producto();
@@ -96,6 +117,21 @@ public class ProductoFormBean implements Serializable {
         FacesMessage msg = new FacesMessage("Producto Modificado");
         FacesContext.getCurrentInstance().addMessage(null, msg);
         unProducto = new Producto();
+    }
+    
+    public StreamedContent getFotoProducto() throws IOException{
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE){
+            return new DefaultStreamedContent();
+        } else {
+            String codigo = context.getExternalContext().getRequestParameterMap().get("cod");
+            Producto producto = getProductoBean().consultarProducto(Integer.parseInt(codigo));
+            if(producto.getFoto() == null){
+                return null;
+            } else {
+                return new DefaultStreamedContent(new ByteArrayInputStream(producto.getFoto()));
+            }
+        }
     }
     
     public Integer getCod() {
@@ -152,6 +188,14 @@ public class ProductoFormBean implements Serializable {
 
     public void setListadoProducto(List<Producto> listadoProducto) {
         this.listadoProducto = listadoProducto;
+    }
+
+    public List<Categoria> getListadoCategoria() {
+        return listadoCategoria;
+    }
+
+    public void setListadoCategoria(List<Categoria> listadoCategoria) {
+        this.listadoCategoria = listadoCategoria;
     }
     
 }

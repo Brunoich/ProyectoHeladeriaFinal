@@ -53,7 +53,6 @@ public class CategoriaDAOImp implements ICategoriaDAO{
         Session session = NewHibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Criteria criteria = session.createCriteria(Categoria.class);
-        criteria.add(Restrictions.eq("estado", true));
         listado = criteria.list();
         session.getTransaction().commit();
         session.close();

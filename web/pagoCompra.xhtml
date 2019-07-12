@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>PagoCompra</title>
+    </h:head>
+    <h:body>
+        <h:form id="ComprarProducto">
+            <h:panelGrid id="volver" columns="2">
+                <p:commandLink value="Cerrar Session" process="@this" action="login"/>
+                <p:commandLink value="Regresar" process="@this" action="compraProductos"/>
+            </h:panelGrid>
+        </h:form>
+        <h:form id="frmFactura" enctype="multipart/form-data">
+            <p:panelGrid id="tblFactura" columns="2">
+                <p:outputLabel id="lblFecha" value="Fecha:" />
+                <p:outputLabel value="#{detalleFormBean.factura.fecha}"/>
+                <p:outputLabel id="lblUsuario" value="Usuario:" />
+                <p:outputLabel value="#{detalleFormBean.factura.usuarios.nombreUsuario}"/>
+                <p:outputLabel id="lblDNIUsuario" value="DNI:" />
+                <p:outputLabel value="#{detalleFormBean.factura.usuarios.clientes.dni}"/>
+                <p:outputLabel id="lblModopago" value="Modo de Pago:" />
+                <p:outputLabel value="#{detalleFormBean.factura.modopago.descripcion}" converter="omnifaces.SelectItemsConverter"/>
+                <p:outputLabel id="lblCuotas" value="Cantidad de Cuotas:" />
+                <p:outputLabel value="#{detalleFormBean.factura.modopago.cuotas}"/>
+                <p:outputLabel id="lblTotal" value="Compra Total:"/>
+                <p:outputLabel value="#{detalleFormBean.precioTotal(unProducto)}"/>
+                <p:commandButton id="btnConfirmarCompraProductos" value="Imprimir Factura" onclick="print()"/>
+            </p:panelGrid>
+            <h:panelGrid id="tblDetalleFactura" columns="5">
+                <p:dataTable id="dtTblDetalleFactura" value="#{detalleFormBean.listaDetalle}" var="cadaDet" emptyMessage="No hay productos por comprar">
+                    <p:column headerText="Producto">
+                        <p:outputLabel value="#{cadaDet.productos.descripcion}"/>
+                    </p:column>
+                    <p:column headerText="Cantidad">
+                        <p:outputLabel value="#{cadaDet.cantidad}"/>
+                    </p:column>
+                    <p:column headerText="Total Producto">
+                        <p:outputLabel value="#{cadaDet.precioProdCant}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+

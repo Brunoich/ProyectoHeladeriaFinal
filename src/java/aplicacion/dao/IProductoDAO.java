@@ -17,4 +17,5 @@ public interface IProductoDAO {
     void eliminarProducto(Producto unProducto);
     void modificarProducto(Producto unProducto);
     List<Producto> obtenerListaProducto();
+    Producto consultarProducto(Integer cod);
 }

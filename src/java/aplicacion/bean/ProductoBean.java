@@ -42,6 +42,10 @@ public class ProductoBean implements Serializable{
       productoDao.modificarProducto(producto);
     }
     
+    public Producto consultarProducto(Integer codProducto){
+        return getProductoDao().consultarProducto(codProducto);
+    }
+    
     public List<Producto> obtenerListaProducto(){
        return productoDao.obtenerListaProducto();
     }

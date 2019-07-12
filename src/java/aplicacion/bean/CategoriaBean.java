@@ -8,6 +8,7 @@ package aplicacion.bean;
 import aplicacion.dao.ICategoriaDAO;
 import aplicacion.dao.mysql.CategoriaDAOImp;
 import aplicacion.modelo.dominio.Categoria;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -18,7 +19,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class CategoriaBean {
+public class CategoriaBean implements Serializable{
     private ICategoriaDAO categoriaDao;
 
     /**
@@ -36,11 +37,11 @@ public class CategoriaBean {
       categoriaDao.agregarCategoria(categoria);
     }
     
-    public void eliminarProducto(Categoria categoria){
+    public void eliminarCategoria(Categoria categoria){
       categoriaDao.eliminarCategoria(categoria);
     }
     
-    public void modificarProducto(Categoria categoria){
+    public void modificarCategoria(Categoria categoria){
       categoriaDao.modificarCategoria(categoria);
     }
     

@@ -16,19 +16,17 @@ public class Categoria  implements java.io.Serializable {
 
     public Categoria() {
     }
-
-	
+    
     public Categoria(int idcategoria) {
         this.idcategoria = idcategoria;
     }
-    
-    public Categoria(int idcategoria, String nombre, String descripcion, Set productoses) {
-       this.idcategoria = idcategoria;
-       this.nombre = nombre;
-       this.descripcion = descripcion;
-       this.productoses = productoses;
+
+    public Categoria(Integer idcategoria, String nombre, String descripcion) {
+        this.idcategoria = idcategoria;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
     }
-   
+           
     public Integer getIdcategoria() {
         return this.idcategoria;
     }
@@ -57,7 +55,7 @@ public class Categoria  implements java.io.Serializable {
     public void setProductoses(Set productoses) {
         this.productoses = productoses;
     }
-    
+       
     @Override
     public boolean equals(Object other) {
         return (other instanceof Categoria) && (idcategoria != null)? idcategoria.equals(((Categoria)other).idcategoria):(other == this);
@@ -71,7 +69,7 @@ public class Categoria  implements java.io.Serializable {
     @Override
     public String toString() {
         return String.format("Categoria: [%s,%s]", descripcion, nombre);
-    }
+    }   
 }
 
 

@@ -11,7 +11,7 @@ import java.util.Set;
 public class Modopago  implements java.io.Serializable {
 
 
-     private int idmodoPago;
+     private Integer idmodoPago;
      private String descripcion;
      private Integer cuotas;
      private Double interes;
@@ -67,10 +67,21 @@ public class Modopago  implements java.io.Serializable {
     public void setFacturas(Set facturas) {
         this.facturas = facturas;
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Modopago) && (idmodoPago != null)? idmodoPago.equals(((Modopago)other).idmodoPago):(other == this);
+    }
 
+    @Override
+    public int hashCode() {
+        return (idmodoPago != null)? (this.getClass().hashCode() + idmodoPago.hashCode()):super.hashCode();
+    }
 
-
-
+    @Override
+    public String toString() {
+        return String.format("Modopago: [%s]", descripcion);
+    }   
 }
 
 

@@ -30,7 +30,7 @@ public class UsuarioFormBean implements Serializable{
     private Usuario usuario;
     private Usuario unUsuario;
     private Integer DNI; 
-    private int cod = 2;
+    private int cod = 4;
 
     /**
      * Creates a new instance of UsuarioFormBean
@@ -53,7 +53,7 @@ public class UsuarioFormBean implements Serializable{
     public UsuarioFormBean(Usuario usuario) {
         this.usuario = usuario;
     }
-    
+
     public String agregarUsuario(){
         String resultado = null;
         try{ /*intenta*/
